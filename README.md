@@ -3,7 +3,7 @@
 [![CI](https://github.com/Tranduy1dol/rust-library-template/actions/workflows/ci.yml/badge.svg)](https://github.com/Tranduy1dol/rust-library-template/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/Tranduy1dol/rust-library-template/graph/badge.svg)](https://codecov.io/gh/Tranduy1dol/rust-library-template)
 
-{{PROJECT_DESCRIPTION}}
+This is a template for creating new Rust crypto libraries for the [zk-pathlearn](https://github.com/Tranduy1dol/zk-pathlearn) project.
 
 > ⚠️ **Educational Purpose Only**: This library is for learning purposes and is **NOT production-ready**.
 

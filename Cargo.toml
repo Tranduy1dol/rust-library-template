@@ -1,11 +1,11 @@
 [package]
-name = "{{PROJECT_NAME}}"
+name = "rust-library-template"
 version = "0.1.0"
 edition = "2021"
 authors = ["Tran Manh Duy <tmd.iid2004@gmail.com>"]
-description = "{{PROJECT_DESCRIPTION}}"
+description = "This is a template for creating new Rust crypto libraries for the [zk-pathlearn](https://github.com/Tranduy1dol/zk-pathlearn) project."
 license = "MIT"
-repository = "https://github.com/Tranduy1dol/{{PROJECT_NAME}}"
+repository = "https://github.com/Tranduy1dol/rust-library-template"
 keywords = ["cryptography", "zero-knowledge", "rust"]
 categories = ["cryptography"]
 

@@ -1,6 +1,6 @@
-//! # {{PROJECT_NAME}}
+//! # rust-library-template
 //!
-//! {{PROJECT_DESCRIPTION}}
+//! This is a template for creating new Rust crypto libraries for the [zk-pathlearn](https://github.com/Tranduy1dol/zk-pathlearn) project.
 //!
 //! ## Features
 //!
@@ -10,11 +10,11 @@
 //! ## Example
 //!
 //! ```rust
-//! use {{PROJECT_NAME}}::*;
+//! use rust_library_template::*;
 //!
 //! // Your example code here
 //! ```
 
-pub mod lib;
+pub mod modules_1;
 
-pub use lib::*;
+pub use modules_1::*;
