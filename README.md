@@ -1,7 +1,7 @@
-# {{PROJECT_NAME}}
+# rust-library-template
 
-[![CI](https://github.com/Tranduy1dol/{{PROJECT_NAME}}/actions/workflows/ci.yml/badge.svg)](https://github.com/Tranduy1dol/{{PROJECT_NAME}}/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/Tranduy1dol/{{PROJECT_NAME}}/graph/badge.svg)](https://codecov.io/gh/Tranduy1dol/{{PROJECT_NAME}})
+[![CI](https://github.com/Tranduy1dol/rust-library-template/actions/workflows/ci.yml/badge.svg)](https://github.com/Tranduy1dol/rust-library-template/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/Tranduy1dol/rust-library-template/graph/badge.svg)](https://codecov.io/gh/Tranduy1dol/rust-library-template)
 
 {{PROJECT_DESCRIPTION}}
 
@@ -18,13 +18,13 @@ Add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-{{PROJECT_NAME}} = { git = "https://github.com/Tranduy1dol/{{PROJECT_NAME}}" }
+rust-library-template = { git = "https://github.com/Tranduy1dol/rust-library-template" }
 ```
 
 ## Usage
 
 ```rust
-use {{PROJECT_NAME}}::*;
+use rust_library_template::*;
 
 fn main() {
     // Your code here
