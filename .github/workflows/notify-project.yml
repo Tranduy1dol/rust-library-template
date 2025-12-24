@@ -1,0 +1,95 @@
+# Notify zk-pathlearn Project Management
+#
+# This workflow notifies the central zk-pathlearn repository
+# about branch and PR events to update issue status.
+#
+# SETUP:
+# 1. Create a Personal Access Token (PAT) with 'repo' scope
+# 2. Add the token as a secret named 'PROJECT_DISPATCH_TOKEN' in this repo
+#
+# BRANCH NAMING:
+# Your branch name should include the zk-pathlearn issue number:
+# - feature/5-add-mul-gate
+# - bugfix/12-fix-overflow
+# The number after the "/" will be extracted as the issue ID.
+
+name: 📡 Notify Project
+
+on:
+  create:
+  pull_request:
+    types: [opened, closed]
+
+env:
+  PROJECT_REPO: "Tranduy1dol/zk-pathlearn"
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract Issue ID from Branch
+        id: extract
+        run: |
+          if [[ "${{ github.event_name }}" == "create" && "${{ github.ref_type }}" == "branch" ]]; then
+            BRANCH_NAME="${{ github.ref_name }}"
+          elif [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            BRANCH_NAME="${{ github.event.pull_request.head.ref }}"
+          else
+            echo "Skipping - not a branch or PR event"
+            exit 0
+          fi
+
+          echo "Branch: $BRANCH_NAME"
+
+          # Extract issue ID from branch name (e.g., feature/5-xxx -> 5)
+          if [[ "$BRANCH_NAME" =~ /([0-9]+)- ]]; then
+            ISSUE_ID="${BASH_REMATCH[1]}"
+            echo "ISSUE_ID=$ISSUE_ID" >> $GITHUB_ENV
+            echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+            echo "Found Issue ID: $ISSUE_ID"
+          else
+            echo "No issue ID found in branch name"
+            exit 0
+          fi
+
+      - name: Determine Event Type
+        if: env.ISSUE_ID != ''
+        run: |
+          if [[ "${{ github.event_name }}" == "create" ]]; then
+            echo "EVENT_TYPE=branch_created" >> $GITHUB_ENV
+          elif [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            if [[ "${{ github.event.action }}" == "opened" ]]; then
+              echo "EVENT_TYPE=pr_opened" >> $GITHUB_ENV
+            elif [[ "${{ github.event.action }}" == "closed" ]]; then
+              if [[ "${{ github.event.pull_request.merged }}" == "true" ]]; then
+                echo "EVENT_TYPE=pr_merged" >> $GITHUB_ENV
+              else
+                echo "EVENT_TYPE=pr_closed" >> $GITHUB_ENV
+              fi
+            fi
+          fi
+
+      - name: Notify zk-pathlearn
+        if: env.ISSUE_ID != '' && env.EVENT_TYPE != ''
+        run: |
+          echo "🚀 Sending $EVENT_TYPE event to ${{ env.PROJECT_REPO }}"
+          echo "   Issue: #$ISSUE_ID"
+          echo "   Branch: $BRANCH_NAME"
+          echo "   Repository: ${{ github.repository }}"
+
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.PROJECT_DISPATCH_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ env.PROJECT_REPO }}/dispatches \
+            -d '{
+              "event_type": "'"$EVENT_TYPE"'",
+              "client_payload": {
+                "issue_id": "'"$ISSUE_ID"'",
+                "branch_name": "'"$BRANCH_NAME"'",
+                "repository": "${{ github.repository }}",
+                "merged": "${{ github.event.pull_request.merged }}"
+              }
+            }'
+
+          echo "✅ Notification sent!"

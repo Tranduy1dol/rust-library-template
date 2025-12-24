@@ -1,0 +1,26 @@
+[package]
+name = "{{PROJECT_NAME}}"
+version = "0.1.0"
+edition = "2021"
+authors = ["Tran Manh Duy <tmd.iid2004@gmail.com>"]
+description = "{{PROJECT_DESCRIPTION}}"
+license = "MIT"
+repository = "https://github.com/Tranduy1dol/{{PROJECT_NAME}}"
+keywords = ["cryptography", "zero-knowledge", "rust"]
+categories = ["cryptography"]
+
+[dependencies]
+
+[dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+
+[[bench]]
+name = "benchmarks"
+harness = false
+
+[features]
+default = []
+
+[profile.release]
+lto = true
+codegen-units = 1
